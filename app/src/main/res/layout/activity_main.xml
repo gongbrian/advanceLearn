@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="learn.advance.com.advancelearn.MainActivity">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="196dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/title_home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
+
+    <Button
+        android:id="@+id/bt_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SpinnerMainActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/bt_b"/>
+    <!--B边界控制属性 也有 左 和 右-->
+    <Button
+        android:id="@+id/bt_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tabMainActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/bt_a"
+        />
+    <!--C边界控制属性 只有右-->
+    <Button
+        android:id="@+id/bt_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VFMainActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_a"/>
+
+    <Button
+        android:id="@+id/bt_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OKHttpMainActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/bt_c"
+        app:layout_constraintTop_toBottomOf="@id/bt_b"/>
+
+    <Button
+        android:id="@+id/bt_e"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WebViewActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_c"/>
+
+    <Button
+        android:id="@+id/bt_f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GetUUIDActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/bt_e"
+        app:layout_constraintTop_toBottomOf="@id/bt_d"/>
+
+    <Button
+        android:id="@+id/bt_g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WebView2Activity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_e"/>
+
+    <Button
+        android:id="@+id/bt_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ScrollingActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/bt_g"
+        app:layout_constraintTop_toBottomOf="@id/bt_f"/>
+
+
+</android.support.constraint.ConstraintLayout>
