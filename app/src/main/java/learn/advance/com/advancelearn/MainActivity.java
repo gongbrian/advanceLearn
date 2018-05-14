@@ -1,5 +1,6 @@
 package learn.advance.com.advancelearn;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,19 +13,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import learn.advance.com.advancelearn.okhttp.OKHttpMainActivity;
-import learn.advance.com.advancelearn.okhttp.ScrollingActivity;
+import learn.advance.com.advancelearn.okhttp.AsyncHttpScrollingActivity;
 import learn.advance.com.advancelearn.spinner.SpinnerMainActivity;
 import learn.advance.com.advancelearn.tabpagerview.tabMainActivity;
 import learn.advance.com.advancelearn.viewpagerFragment.VFMainActivity;
+import learn.advance.com.advancelearn.webview.JSCameraActivity;
 import learn.advance.com.advancelearn.webview.WebView2Activity;
 import learn.advance.com.advancelearn.webview.WebViewActivity;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView mTextMessage;
     private Button advance_spinner;
     private Button tab_button;
-    private Button bt_c,bt_d,bt_e,bt_f,bt_g,bt_h;
+    private Button bt_c,bt_d,bt_e,bt_f,bt_g,bt_h,bt_I,bt_J;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -79,6 +84,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_h = (Button) findViewById(R.id.bt_h);
         bt_h.setOnClickListener(this);
 
+        bt_I = (Button) findViewById(R.id.bt_I);
+        bt_I.setOnClickListener(this);
+
+        bt_J = (Button) findViewById(R.id.bt_J);
+        bt_J.setOnClickListener(this);
+
+        MainActivityPermissionsDispatcher.MyNeedsPermissionWithPermissionCheck(MainActivity.this);
+
     }
 
     public void onClick(View v){
@@ -114,10 +127,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentg);
                 break;
             case R.id.bt_h:
-                Intent intenth = new Intent(MainActivity.this, ScrollingActivity.class);
+                Intent intenth = new Intent(MainActivity.this, AsyncHttpScrollingActivity.class);
                 startActivity(intenth);
+                break;
+
+            case R.id.bt_I:
+                Intent intentI = new Intent(MainActivity.this, JSCameraActivity.class);
+                startActivity(intentI);
+                break;
+
+            case R.id.bt_J:
+                Intent intentJ = new Intent("android.intent.action.tabpagerview.MainActivity");
+                startActivity(intentJ);
                 break;
         }
     }
 
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void MyNeedsPermission() {
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
 }

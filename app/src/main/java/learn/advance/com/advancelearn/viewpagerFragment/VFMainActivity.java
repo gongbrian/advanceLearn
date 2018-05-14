@@ -61,8 +61,8 @@ public class VFMainActivity extends AppCompatActivity implements View.OnClickLis
         viewpager = (ViewPager) findViewById(R.id.vp); //获取ViewPager
         listfragment=new ArrayList<Fragment>(); //new一个List<Fragment>
         Fragment tabf1 = Tab1Fragment.newInstance("第一个viewpage+fragment");
-        Fragment tabf2 = Tab2Fragment.newInstance("第二个viewpage+fragment");;
-        Fragment tabf3 = Tab3Fragment.newInstance("第三个viewpage+fragment");;//添加三个fragment到集合
+        Fragment tabf2 = Tab2Fragment.newInstance("第二个viewpage+fragment");
+        Fragment tabf3 = Tab3Fragment.newInstance("第三个viewpage+fragment");//添加三个fragment到集合
         listfragment.add(tabf1);
         listfragment.add(tabf2);
         listfragment.add(tabf3);

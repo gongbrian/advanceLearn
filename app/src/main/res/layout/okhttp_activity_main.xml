@@ -26,6 +26,12 @@
         android:text="获取Json数据请求" />
 
     <Button
+        android:id="@+id/rfidgetjson"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="测试获取rfid Json数据请求" />
+
+    <Button
         android:id="@+id/button3"
 
         android:layout_width="match_parent"

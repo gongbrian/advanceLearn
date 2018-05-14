@@ -2,10 +2,13 @@ package multiimageselector.advance.com.multiimageselector.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static android.os.Environment.MEDIA_MOUNTED;
@@ -119,6 +122,42 @@ public class FileUtils {
             }
         }
         return appCacheDir;
+    }
+
+    /**
+     * 保存图片到存储盘 -> 创建临时文件名称
+     * * 图片名为随机的 JPEG 格式图片
+     */
+    public static String saveBitmap(Bitmap pBitmap, String filename) {
+        //File file = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
+        File filePath = new File(Environment.getExternalStorageDirectory().toString());
+        saveBitmap(pBitmap, filePath, filename,null);
+        return filePath.toString();
+    }
+
+    /**
+     * 保存图片到存储盘
+     *
+     * @param pBitmap  存储的bitmap对象
+     * @param savePath 存储路径
+     * @param fileName 文件名 (带后缀名)
+     * @param format   图片格式 (默认 JPEG 格式)
+     */
+    public static void saveBitmap(Bitmap pBitmap, File savePath, String fileName, Bitmap.CompressFormat format) {
+        if (format == null) {
+            format = Bitmap.CompressFormat.JPEG;
+        }
+        // 保存图片
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(new File(savePath, fileName));
+            if (fos != null) {
+                pBitmap.compress(format, 100, fos);
+                fos.flush();
+            }
+        } catch (IOException pE) {
+            Log.e("gongzibiao",pE.toString());
+        }
     }
 
     private static boolean hasExternalStoragePermission(Context context) {

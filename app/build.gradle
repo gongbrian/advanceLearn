@@ -8,6 +8,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,6 +20,8 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.1'
+    compile fileTree(include: '*.jar', dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -37,4 +40,19 @@ dependencies {
     }
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
     implementation project(':multiimageselector')
+    compile 'com.github.open-android:BaseRecyclerAndAdapter:0.5.13'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.alibaba:fastjson:1.2.24'
+    compile 'com.alibaba:fastjson:1.1.56.android'
+    compile 'com.facebook.fresco:fresco:0.11.0'
+    implementation files('libs/yichat_im_sdk.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/dom4j-1.6.1.jar')
+    implementation files('libs/libammsdk.jar')
+    implementation files('libs/mta-sdk-1.6.2.jar')
+    implementation files('libs/open_sdk_r5756.jar')
+    implementation files('libs/weibosdkcore_release.jar')
+    implementation files('libs/zbardecoder.jar')
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 }

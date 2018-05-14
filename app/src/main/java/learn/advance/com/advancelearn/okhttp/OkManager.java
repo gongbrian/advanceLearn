@@ -14,15 +14,19 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -45,6 +49,7 @@ public class OkManager {
     private static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
     //提交字符串数据
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown;charset=utf-8");
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 
     private OkManager() {
         client = new OkHttpClient();
@@ -173,13 +178,33 @@ public class OkManager {
      * @param url
      * @param callback
      */
-    public void asyncJsonStringByURL(String url, final Fun1 callback) {
+    public void asyncJsonStringByURL(String url, Map<String, String> headersParams, Map<String, String> bodysparams,final Fun1 callback) {
         //final Request request = new Request.Builder().url(url).build();
-        FormBody body=new FormBody.Builder()
-                .add("grant_type","abcdef")
-                .add("appid","23")
-                .add("appsecret","101")
-                .build();
+        Request.Builder RequestBuilder=new Request.Builder();
+        RequestBuilder.url(url);//添加URL地址
+        RequestBuilder.headers(SetHeaders(headersParams));//添加请求头
+        RequestBuilder.post(SetRequrestBody(bodysparams));
+        final Request request = RequestBuilder.build();
+        client.newCall(request).enqueue(new Callback() {
+            //enqueue是调用了一个入队的方法
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response != null && response.isSuccessful()) {
+                    onSuccessJsonStringMethod(response.body().string(), callback);
+                }
+            }
+        });
+
+    }
+
+    public void asyncJsonStringByUserSet(String url, final Fun1 callback) {
+        //final Request request = new Request.Builder().url(url).build();
+        FormBody body = addBodys();
         final Request request = addHeaders().url(url).post(body).build();
         client.newCall(request).enqueue(new Callback() {
             //enqueue是调用了一个入队的方法
@@ -389,12 +414,113 @@ public class OkManager {
      * @return
      */
     private Request.Builder addHeaders() {
-        Request.Builder builder = new Request.Builder()
-                .addHeader("device-udid", "a46d663d675d4858ea7d0a21c2de06e9")
-                .addHeader("device-client", "weapp")
-                .addHeader("device-code", "6015")
-                .addHeader("api-version", "1.9");
+        Request.Builder builder = new Request.Builder();
+        builder.addHeader("device-udid", "a46d663d675d4858ea7d0a21c2de06e9");
+        builder.addHeader("device-client", "weapp");
+        builder.addHeader("device-code", "6015");
+        builder.addHeader("api-version", "1.9");
         return builder;
+    }
+
+
+    /**
+     * 设置请求头
+     * @param headersParams
+     * @return
+     */
+    private Headers SetHeaders(Map<String, String> headersParams){
+        Headers headers=null;
+        okhttp3.Headers.Builder headersbuilder=new okhttp3.Headers.Builder();
+
+        if(headersParams != null)
+        {
+            Iterator<String> iterator = headersParams.keySet().iterator();
+            String key = "";
+            while (iterator.hasNext()) {
+                key = iterator.next().toString();
+                headersbuilder.add(key, headersParams.get(key));
+                Log.d("get http", "get_headers==="+key+"===="+headersParams.get(key));
+            }
+        }
+        headers=headersbuilder.build();
+
+        return headers;
+    }
+
+
+    private FormBody addBodys(){
+        FormBody.Builder body=new FormBody.Builder();
+        body.add("grant_type","abcdef");
+        body.add("appid","23");
+        body.add("appsecret","101");
+        return body.build();
+    }
+
+    /**
+     * post请求参数
+     * @param BodyParams
+     * @return
+     */
+    private RequestBody SetRequrestBody(Map<String, String> BodyParams){
+        RequestBody body=null;
+        okhttp3.FormBody.Builder formEncodingBuilder=new okhttp3.FormBody.Builder();
+        if(BodyParams != null){
+            Iterator<String> iterator = BodyParams.keySet().iterator();
+            String key = "";
+            while (iterator.hasNext()) {
+                key = iterator.next().toString();
+                formEncodingBuilder.add(key, BodyParams.get(key));
+                Log.d("post http", "post_Params==="+key+"===="+BodyParams.get(key));
+            }
+        }
+        body=formEncodingBuilder.build();
+        return body;
+
+    }
+
+    /**
+     * Post上传图片的参数
+     * @param BodyParams
+     * @param fileParams
+     * @return
+     */
+    private RequestBody SetFileRequestBody(Map<String, String> BodyParams,Map<String, String> fileParams){
+        //带文件的Post参数
+        RequestBody body=null;
+	    okhttp3.MultipartBody.Builder MultipartBodyBuilder=new okhttp3.MultipartBody.Builder();
+        MultipartBodyBuilder.setType(MultipartBody.FORM);
+        RequestBody fileBody = null;
+
+        if(BodyParams != null){
+            Iterator<String> iterator = BodyParams.keySet().iterator();
+            String key = "";
+            while (iterator.hasNext()) {
+                key = iterator.next().toString();
+                MultipartBodyBuilder.addFormDataPart(key, BodyParams.get(key));
+                Log.d("post http", "post_Params==="+key+"===="+BodyParams.get(key));
+            }
+        }
+
+        if(fileParams != null){
+            Iterator<String> iterator = fileParams.keySet().iterator();
+            String key = "";
+            int i=0;
+            while (iterator.hasNext()) {
+                key = iterator.next().toString();
+                i++;
+                MultipartBodyBuilder.addFormDataPart(key, fileParams.get(key));
+                Log.d("post http", "post_Params==="+key+"===="+fileParams.get(key));
+
+                fileBody = RequestBody.create(MEDIA_TYPE_PNG, new File(fileParams.get(key)));
+                MultipartBodyBuilder.addFormDataPart(key, i+".png", fileBody);
+            }
+        }
+
+
+
+        body=MultipartBodyBuilder.build();
+        return body;
+
     }
 
 

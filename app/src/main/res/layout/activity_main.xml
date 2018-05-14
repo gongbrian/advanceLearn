@@ -96,10 +96,28 @@
         android:id="@+id/bt_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ScrollingActivity"
+        android:text="AsyncHttpScrollingActivity"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toRightOf="@id/bt_g"
         app:layout_constraintTop_toBottomOf="@id/bt_f"/>
+
+    <Button
+        android:id="@+id/bt_I"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JSCameraActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_g"/>
+
+    <Button
+        android:id="@+id/bt_J"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tabpagerview.MainActivity"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/bt_I"
+        app:layout_constraintTop_toBottomOf="@id/bt_h"/>
 
 
 </android.support.constraint.ConstraintLayout>
